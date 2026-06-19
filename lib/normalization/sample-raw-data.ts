@@ -115,7 +115,10 @@ export const SAMPLE_RAW_RECORDS: RawScrapedRecord[] = [
   { raw_company: 'Google', raw_role: 'Software Engineer L4', raw_salary_text: '$150k–200k', raw_location: 'San Francisco', raw_experience: '3-6 years' },
   // Zero experience (fresher)
   { raw_company: 'TCS', raw_role: 'Graduate Engineer Trainee', raw_salary_text: '₹3.5 LPA', raw_location: 'Mumbai', raw_experience: 'fresher' },
+
+  // ── Intentional rejection: Company name too short after normalization ──
+  { raw_company: 'X', raw_role: 'Software Engineer L3', raw_salary_text: '₹10 LPA', raw_location: 'Bengaluru', raw_experience: '2 years' },
 ]
 
-/** Total count of sample records. */
+/** Total count of sample records (auto-calculated). */
 export const SAMPLE_COUNT = SAMPLE_RAW_RECORDS.length

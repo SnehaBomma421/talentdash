@@ -340,38 +340,72 @@ pipeline-output/
 └── rejections.jsonl          # Rejected records with reasons (JSONL)
 ```
 
-### Sample Run — Quality Report
+### Real Pipeline Run (2026-06-19)
 
 ```
-════════════════════════════════════════════════════
+============================================================
   TALENTDASH DATA PIPELINE — QUALITY REPORT
-════════════════════════════════════════════════════
+  2026-06-19T08:56:34.296Z
+============================================================
 
 📊 Pipeline Summary:
-  Total records scraped:          68
-  Records passed normalization:   66
-  Records rejected (norm):        2
-  Records passed validation:      63
-  Records rejected (validation):  3
-  Records stored successfully:    63
+------------------------------------------------------------
+  Total records scraped:          73
+  Records passed normalization:   73
+  Records rejected (norm):        0
+  Records passed validation:      71
+  Records rejected (validation):  2
+  Records stored successfully:    71
 
 ❌ Rejection Breakdown:
-  invalid_salary:    2
-  invalid_company:   2
-  invalid_level:     1
+------------------------------------------------------------
+  invalid_salary:   1
+  invalid_company:  1
 
 📉 Null Rate Per Field:
-  raw_company         0/68 (0.0%)
-  raw_role            0/68 (0.0%)
-  raw_salary_text     0/68 (0.0%)
-  raw_location        0/68 (0.0%)
-  raw_experience      0/68 (0.0%)
+------------------------------------------------------------
+  raw_company          1/73 (1.4%)
+  raw_role             0/73 (0.0%)
+  raw_salary_text      0/73 (0.0%)
+  raw_location         0/73 (0.0%)
+  raw_experience       0/73 (0.0%)
 
 📋 Sample Records (Raw → Normalized):
-  Sample #1:
+------------------------------------------------------------
+  (3 of 5 shown — demonstrates alias resolution, level mapping, salary parsing)
+
+  Sample #1 — Company alias + suffix stripping:
     RAW:        {"raw_company":"Google India Pvt. Ltd.","raw_role":"Software Engineer L3","raw_salary_text":"₹18–25 LPA","raw_location":"Bengaluru","raw_experience":"1-3 years"}
     NORMALIZED: {"company":"google","role":"Software Engineer L3","level":"L3","location":"Bengaluru","currency":"INR","experience_years":2,"base_salary":2150000,"total_compensation":2150000,"confidence_score":0.85}
+
+  Sample #2 — Case normalization + level mapping:
+    RAW:        {"raw_company":"GOOGLE","raw_role":"Software Engineer L4","raw_salary_text":"₹30–45 LPA","raw_location":"Bengaluru","raw_experience":"3-5 years"}
+    NORMALIZED: {"company":"google","role":"Software Engineer L4","level":"L4","location":"Bengaluru","currency":"INR","experience_years":4,"base_salary":3750000,"total_compensation":3750000,"confidence_score":0.85}
+
+  Sample #3 — Experience-based level heuristic:
+    RAW:        {"raw_company":"google","raw_role":"Senior Software Engineer","raw_salary_text":"₹50–70 LPA","raw_location":"Hyderabad","raw_experience":"5-8 years"}
+    NORMALIZED: {"company":"google","role":"Senior Software Engineer","level":"L5","location":"Hyderabad","currency":"INR","experience_years":7,"base_salary":6000000,"total_compensation":6000000,"confidence_score":0.85}
 ```
+
+### Rejected Records (from the same run)
+
+Two records failed validation and were logged to `rejections.jsonl`:
+
+**Rejection #1 — Negative salary (invalid):**
+| Field | Value |
+|---|---|
+| Raw input | `{"raw_company":"Google","raw_role":"SDE-I","raw_salary_text":"-₹5 LPA","raw_location":"Bengaluru","raw_experience":"1 year"}` |
+| Rejection stage | VALIDATION |
+| Reason | `base_salary: base_salary is required and must be a number` |
+| Explanation | The salary parser returns `null` for negative amounts (`-₹5 LPA`). With no base salary, validation rejects the record. |
+
+**Rejection #2 — Company name too short:**
+| Field | Value |
+|---|---|
+| Raw input | `{"raw_company":"X","raw_role":"Software Engineer L3","raw_salary_text":"₹10 LPA","raw_location":"Bengaluru","raw_experience":"2 years"}` |
+| Rejection stage | VALIDATION |
+| Reason | `company: Company name must be at least 2 characters after normalization. Got: "x"` |
+| Explanation | After normalization (lowercase, suffix stripping, alias lookup), a single character `"x"` remains. The validation rule requires company names to be ≥ 2 characters. |
 
 ## Edge Cases Handled
 
@@ -388,7 +422,11 @@ pipeline-output/
 
 ## Live URL
 
-*Deployment pending — see setup instructions above to run locally.*
+**https://talentdash-sage.vercel.app**
+
+The app is deployed on Vercel (free tier) with Neon PostgreSQL. All pages gracefully handle database availability.
+
+> **Note:** The `/salaries` page queries the database directly (no self-fetching HTTP calls), making it compatible with serverless deployment without localhost dependencies.
 
 ---
 

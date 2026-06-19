@@ -502,5 +502,12 @@
     "raw_salary_text": "₹3.5 LPA",
     "raw_location": "Mumbai",
     "raw_experience": "fresher"
+  },
+  {
+    "raw_company": "X",
+    "raw_role": "Software Engineer L3",
+    "raw_salary_text": "₹10 LPA",
+    "raw_location": "Bengaluru",
+    "raw_experience": "2 years"
   }
 ]
