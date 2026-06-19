@@ -318,17 +318,17 @@ Rejected records are never silently dropped — each is written to `rejections.j
 ### Running the Pipeline
 
 ```bash
-# Run with sample data (65 records, 12 companies)
+# Run with sample data (73 records, 14 companies)
 npm run pipeline
 
 # Run and ingest to local backend
 npm run pipeline:ingest
 
 # Run with custom input and options
-npx ts-node scripts/run-pipeline.ts --input ./my-data.json --output ./results
+npx tsx scripts/run-pipeline.ts --input ./my-data.json --output ./results
 
 # Full pipeline with remote backend
-npx ts-node scripts/run-pipeline.ts --ingest --url https://talentdash.com
+npx tsx scripts/run-pipeline.ts --ingest --url https://talentdash.com
 ```
 
 ### Pipeline Output
