@@ -1,0 +1,211 @@
+=== TABLE 1 ===
+TalentDash
+3-Day Engineering Trial Task
+Frontend  ·  Backend  ·  Full-Stack  ·  AI & Data Engineering
+2025  |  72 Hours  |  Confidential — Do Not Distribute
+
+=== TABLE 2 ===
+72 Hours
+Duration | 4 Roles
+Covered | Ship It
+Expectation | Real Data
+Standard
+
+=== TABLE 3 ===
+Core product principle: "Structured data → Comparable → Decision-ready." We are not building a content site. We are building a compensation intelligence engine that happens to look like a website.
+
+=== TABLE 4 ===
+The flywheel: more pages indexed by Google → more users → more salary submissions → better data → better pages → more pages. Every engineer's job is to make this flywheel spin faster and cheaper.
+
+=== TABLE 5 ===
+Element | Value | Usage
+Primary Accent | #FF5A5F — Coral Red | Primary CTAs, active states, salary highlights
+Deep Text | #222222 — Airbnb Black | Main headings, company names, primary content
+Body Text | #484848 — Soft Dark Gray | Paragraphs, metadata, review content
+Muted Text | #717171 — Neutral Gray | Secondary labels, timestamps, helper text
+Surface Background | #FFFFFF — Pure White | Cards, tables, modals
+App Background | #F7F7F7 — Soft Gray | Overall application background
+Border Color | #EBEBEB — Light Border | Dividers, table borders, card outlines
+Success Green | #008A05 — Positive Indicator | Salary increases, positive trends
+Warning Orange | #FFB400 — Alert Indicator | Market caution indicators
+Error Red | #D93025 — Risk/Error | Validation errors, rejection indicators
+Hover Surface | #F2F2F2 — Hover Gray | Table row hover, interactive states
+
+=== TABLE 6 ===
+Element | Specification
+Font Family | Inter (Primary), system-ui fallback
+H1 | 36px, weight 700, line-height 1.1
+H2 | 28px, weight 700
+H3 | 22px, weight 600
+Salary Figures | 32–40px, weight 700
+Body Text | 16px, weight 400, line-height 1.6
+Small Labels | 13px, weight 500
+Metadata | 12px, weight 400
+
+=== TABLE 7 ===
+No component libraries (ShadCN, MUI, Chakra). Write Tailwind from scratch. The discipline of building your own components is what tells us whether you understand the UI, not just consume it.
+
+=== TABLE 8 ===
+Product | Their Strength | Where TalentDash Beats Them
+levels.fyi | Gold standard for US tech salary data. Level-based, structured, trusted. The product we most closely reference. | Virtually no India data. No reviews, no interview experiences, no community. Limited to tech. We cover India deeply + multiple industries.
+ambitionbox.com | Dominant in India for company reviews and salary data. High user trust among Indian professionals. | Data is unstructured and un-normalised. Salary ranges are too broad to be useful. No level system. UI/UX is outdated. No comparison engine.
+glassdoor.co.in | Global brand recognition. Reviews + salaries in one place. Trusted by recruiters worldwide. | Paywalled. Increasingly ad-driven. Reviews are unverified. Salary data is noisy. Algorithm hides negative reviews.
+teamblind.com | Best anonymous professional community. Real talk about companies, comp, and layoffs. | Forum-only. No structured salary data. No company pages. No SEO value. Entirely US-focused.
+comparably.com | Strong culture and compensation analytics. Good UI for comparisons. | Low adoption in India. Limited data depth. Comparisons are surface-level.
+LinkedIn Salarieslinkedin.com | Enormous user base. Salary insights built into job listings. | Paywalled. Vague salary bands with no level granularity. Not structured for comparison. No interview data.
+payscale.com | Established global compensation database. Strong enterprise product. | Outdated consumer product. No community layer. No India-specific depth.
+
+=== TABLE 9 ===
+Area | What Users Do Here | Core SEO Pages Generated
+Companies | Discover and research employers. View ratings, salary ranges, headcount, benefits, funding stage, Glassdoor vs TalentDash score. | talentdash.com/companies/{slug}talentdash.com/companies/{slug}/reviewstalentdash.com/companies/{slug}/salariestalentdash.com/companies/{slug}/interviews
+Salaries | Look up compensation by role, level, company, location, industry. The primary product. Every page is a Levels.fyi equivalent for India. | talentdash.com/salariestalentdash.com/salaries/{role}talentdash.com/salaries/{role}/{location}talentdash.com/salaries/{company}/{role}talentdash.com/salaries/heatmap
+Reviews | Read and submit anonymised employee reviews. Covers work-life balance, management quality, growth opportunities, culture fit. | talentdash.com/reviewstalentdash.com/reviews/{company}talentdash.com/reviews/{company}/{role}
+Interviews | Find interview experiences by company and role. Understand difficulty, rounds, typical questions, offer rates. | talentdash.com/interviewstalentdash.com/interviews/{company}talentdash.com/interviews/{company}/{role}talentdash.com/profiles/{role}/interview-questions
+Compare | Side-by-side comparison of companies or salary records. The "Dmart vs Amazon" or "offer letter A vs B" experience. | talentdash.com/compare/{company1}-vs-{company2}talentdash.com/compare (tool page)
+Tools | Salary calculator, hike calculator, equity/ESOP calculator, offer comparison tool. High intent pages that attract decision-making traffic. | talentdash.com/tools/salary-calculatortalentdash.com/tools/hike-calculatortalentdash.com/tools/equity-calculatortalentdash.com/tools/offer-comparison
+Community / Forum | Anonymous professional discussions. Company-specific boards, role-specific threads. TeamBlind-like layer. | talentdash.com/communitytalentdash.com/community/{company}talentdash.com/community/{topic}
+Workplace Index | Composite scoring system that ranks companies on culture, compensation fairness, growth, D&I, WFH policy. Like a Michelin rating for employers. | talentdash.com/workplace-indextalentdash.com/workplace-index/{industry}talentdash.com/workplace-index/rankings
+
+=== TABLE 10 ===
+Layer | Technology | Why This Specifically
+Framework | Next.js 15 (App Router only) | React Server Components + generateStaticParams powers the entire static page engine. Pages Router is not used.
+Styling | Tailwind CSS only | No ShadCN, MUI, or Radix. Writing utility classes directly builds discipline. Keeps bundle size minimal.
+Rendering | SSG + ISR (Incremental Static Regeneration) | Static pages served from CDN edge. ISR refreshes stale pages without full rebuilds. SSR only for admin/auth.
+Database | PostgreSQL via Neon (serverless) | Structured relational data. Acquisition-friendly. Excellent full-text search. Free tier handles MVP scale.
+ORM | Prisma | Type-safe queries. Migration history in source control. Schema-as-code means any engineer can read the data model.
+Hosting | Cloudflare Pages + CDN | Global edge delivery. Near-zero bandwidth cost. Ideal for SEO-heavy static sites. Predictable billing.
+Storage | Cloudflare R2 | Company logos, screenshots, sitemaps, JSON exports. Zero egress fees (unlike S3).
+Job Queue | BullMQ + Upstash Redis | Background scraping, normalization, sitemap generation, AI enrichment jobs. Serverless-compatible.
+Scraping | Python + Playwright / Scrapy | Playwright for JS-heavy sites. Scrapy for fast HTML crawling. Rate limiting required.
+AI Layer | OpenAI + Claude + Gemini | Async batch jobs only — never on-request. Used for normalization, summaries, SEO content. Not real-time.
+Search Phase 1 | PostgreSQL Full-Text Search | tsvector on company + role fields. Free, no extra infra. Sufficient for MVP.
+Search Phase 2 | Typesense (when needed) | Typo tolerance and autocomplete when PostgreSQL search quality degrades at scale.
+Auth | Clerk or Auth.js | For contributor logins, admin panel, review submission. Light-touch — not on public pages.
+Analytics | PostHog (self-hosted or cloud) | Product analytics + SEO event tracking. Understand which pages drive conversions.
+
+=== TABLE 11 ===
+Rendering Decision Table — Memorise This
+
+=== TABLE 12 ===
+Page Type | Rendering Strategy | Reason
+Homepage | ISR (revalidate: 3600) | Changes daily (trending companies, recent salaries). Too dynamic for full static build.
+Company Page /companies/{slug} | Static (generateStaticParams) | Changes rarely. Pre-built for every known company at build time.
+Salary Pages /salaries/{role} | Static | Core SEO asset. Must be fastest possible. Rebuilt when new data added via ISR trigger.
+Location Salary Pages | Static | Millions of combinations — prebuilt for top 50 cities, ISR for the rest.
+Comparison Pages | ISR (revalidate: 86400) | Combination pages cannot all be prebuilt. Generated on first request, cached after.
+Search Results /search | Dynamic (RSC, no cache) | User-specific query. Cannot be prebuilt. Must still use RSC not client fetch.
+Interview Pages | Static | Experience reports rarely change. Full static generation.
+Review Pages | ISR (revalidate: 7200) | New reviews added frequently but not real-time critical.
+Admin Panel | SSR (server-side rendered) | Auth required, personalised. Never cached.
+Tools Pages | Static shell + client hydration | Tool UI is static. Calculations happen client-side in JS.
+
+=== TABLE 13 ===
+Field | Type & Constraint | Notes for Engineers
+company | string, required | Normalised: always lowercase + trimmed. "Google", "GOOGLE", "google " → "google". Backend enforces this. Frontend displays the formatted version from a lookup table.
+company_slug | string, required | URL-safe: "tata-consultancy-services". Auto-generated from normalised name. Powers /companies/{slug} routes.
+role | string, required | Job title as entered. "Software Engineer", "Product Manager", "Data Analyst". Not normalised — preserved as submitted.
+level_standardized | enum, required | L3 | L4 | L5 | L6 | SDE-I | SDE-II | SDE-III | Staff | Principal | IC4 | IC5. Free text like "Senior Engineer" is rejected at ingestion. The AI normaliser maps titles to this enum.
+location | string, required | City name only. "Bengaluru", "Mumbai", "San Francisco", "Remote". No country suffix in the field. Country inferred from currency.
+currency | enum, required | INR | USD | GBP | EUR. Determines display formatting and comparison normalisation.
+experience_years | integer, required | Total years of experience. Reject if negative or > 50. If a range is given ("5–8 yrs") use the midpoint (6).
+base_salary | number, required | Annual gross, in smallest currency unit (paise for INR, cents for USD). Reject if ≤ 0.
+bonus | number, optional | Annual performance bonus. Defaults to 0 if not provided. Never null in the DB.
+stock | number, optional | Annual RSU/ESOP vesting value. Defaults to 0. Never null in the DB.
+total_compensation | number, COMPUTED | Always = base + bonus + stock. Never trust the client-submitted value. Recomputed on every ingest.
+source | enum, required | CONTRIBUTOR | SCRAPED | AI_INFERRED. Affects confidence_score floor and display label.
+confidence_score | float 0.0–1.0, required | Completeness + reliability score. CONTRIBUTOR with all fields = 0.9–1.0. SCRAPED with partial data = 0.4–0.7. Used to weight medians and filter low-quality records.
+submitted_at | timestamp, auto | Server-side timestamp of record creation. Never trust client-submitted timestamps.
+is_verified | boolean, default false | Set true after moderation or duplicate-check pass. Unverified records shown with a disclosure.
+
+=== TABLE 14 ===
+RULE: total_compensation is ALWAYS computed server-side. base + (bonus ?? 0) + (stock ?? 0). The ingest endpoint strips and recomputes this field regardless of what is submitted. Every engineer — backend, frontend, and AI — must know this.
+
+=== TABLE 15 ===
+The Pipeline: From Public Web to a Static Page
+
+=== TABLE 16 ===
+Stage | What Actually Happens
+1 — Discover | The scraper (Python + Playwright) navigates to AmbitionBox, Glassdoor, or LinkedIn salary pages. It finds salary listings for a target role and company. Playwright handles JavaScript-rendered pages. Scrapy handles simpler HTML. Rate limiting is mandatory — never more than 1 request per 2 seconds per domain.
+2 — Extract Raw | The scraper pulls the raw text around each salary record: company name as shown, role title as shown, salary text ("₹18–22 LPA"), location, experience description. This is messy. "Google India", "google pvt ltd", and "Google" are all the same company. "18–22 LPA" needs to become a number. "5+ years" needs to become an integer.
+3 — LLM Normalisation | The raw extracted text is sent in batches of 10 to Claude or GPT-4o-mini with a structured prompt. The prompt instructs the LLM to output a JSON object matching the integration contract exactly. The model maps "Senior Software Engineer" → level: "L5", maps "18–22 LPA" → base_min: 1800000, base_max: 2200000, base_midpoint: 2000000, normalises the company name.
+4 — Pydantic Validation | EVERY LLM response goes through a Pydantic model before it is used. The Pydantic model enforces the integration contract. If the LLM hallucinated a field, Pydantic catches it. If confidence_score is outside 0.0–1.0, it is rejected. Invalid records are logged with the rejection reason — never silently dropped.
+5 — Deduplication Check | Before storing, check: does a record with the same company + role + level + location + base salary (within 10%) already exist and was submitted in the last 48 hours? If yes, skip it. This prevents the same Glassdoor page being scraped twice and polluting the data.
+6 — Ingest via API | Valid records are POSTed to /api/ingest-salary. The backend recomputes total_compensation, sets source = 'SCRAPED', assigns a confidence_score floor of 0.5 for scraped records. Records with confidence < 0.4 are flagged for human review instead of auto-inserted.
+7 — Static Page Regeneration | After a batch of new salary records is ingested, a background job triggers ISR revalidation on the affected company and role pages via Cloudflare's cache purge API. The next request to that page rebuilds it with fresh data. Users see updated pages without a full rebuild.
+
+=== TABLE 17 ===
+The scraper will get blocked. AmbitionBox returns CAPTCHAs after 50 requests. Glassdoor detects headless browsers. Your job is to handle this gracefully — add jitter to request timing, rotate user-agents, implement retry logic with backoff, and document every anti-bot measure you encountered and how you handled it.
+
+=== TABLE 18 ===
+FRONTEND ENGINEER — 3-Day Trial Task
+
+=== TABLE 19 ===
+SEO is not a bonus task. It is a core deliverable. A salary table page with no JSON-LD structured data is a salary table page that will never rank on Google. TalentDash's entire acquisition strategy depends on organic search.
+
+=== TABLE 20 ===
+BACKEND ENGINEER — 3-Day Trial Task
+
+=== TABLE 21 ===
+Full Prisma Schema Specification
+
+=== TABLE 22 ===
+Model / Field | Specification
+Company model | id (UUID), name (display, "Google India"), slug (unique, "google"), normalized_name (lowercase indexed, "google"), industry (string), headquarters (string), founded_year (int, nullable), headcount_range (string, nullable), created_at, updated_at
+Salary model | id (UUID), company_id (FK → Company), role (string), level (enum: L3|L4|L5|L6|SDE_I|SDE_II|SDE_III|STAFF|PRINCIPAL|IC4|IC5), location (string), currency (enum: INR|USD|GBP|EUR), experience_years (int), base_salary (bigint), bonus (bigint, default 0), stock (bigint, default 0), total_compensation (bigint, COMPUTED), source (enum: CONTRIBUTOR|SCRAPED|AI_INFERRED), confidence_score (Decimal, 0.0–1.0), is_verified (bool, default false), submitted_at (DateTime)
+Indexes | @@index([company_id, level, location]) — primary filter path@@index([total_compensation]) — sort path@@index([submitted_at]) — recency path@@index([location, level]) — geo-level filter path
+Constraints | total_compensation MUST be computed in the application layer, not trusted from input. confidence_score CHECK constraint 0.0–1.0. experience_years CHECK > 0 AND < 51.
+
+=== TABLE 23 ===
+FULL-STACK ENGINEER — 3-Day Trial Task
+
+=== TABLE 24 ===
+A full-stack candidate who ships a disconnected frontend (data mocked, not from the real API) has not completed the task. The end-to-end connection is the whole point of the role.
+
+=== TABLE 25 ===
+AI & DATA ENGINEERING — 3-Day Trial Task
+
+=== TABLE 26 ===
+Raw Input | Normalised Output
+"Google India Pvt. Ltd." | "google"
+"GOOGLE" | "google"
+"Google  " (trailing space) | "google"
+"Tata Consultancy Services" | "tcs"
+"TCS Ltd." | "tcs"
+"Tata Consultancy" | "tcs" (requires alias table)
+"amazon.com" | "amazon"
+"Amazon Web Services" | "aws" or "amazon" (document your choice)
+"Infosys BPO" | "infosys" (document your choice)
+"Wipro Technologies" | "wipro"
+"Flipkart Internet Pvt Ltd" | "flipkart"
+
+=== TABLE 27 ===
+ | Short update message. Format: "Built [X]. Working on [Y] next. Blocked on [Z] — trying [approach]." Not a paragraph. Three lines maximum.
+ | Midpoint check. Share a working GitHub link or a live URL. If you are behind, say so and say what you are cutting and why.
+ | Final submission. Live URL + GitHub repo. A README that actually works. A short message (5 sentences) on the hardest decision you made and why.
+Anytime — Blocked | If you have been stuck on the same problem for more than 2 hours, message the team with: what you are trying to do, what you have tried, what you think the issue is. Do not go silent.
+Tone | Factual and short. "ISR cache not revalidating after POST. Tried revalidatePath('/salaries') — no effect. Checking Cloudflare cache headers." This is the right format.
+
+=== TABLE 28 ===
+GitHub Repo | Clean commit history — not one giant commit on Day 3. README with: architecture overview, how to run locally in under 5 minutes, all env vars documented with examples, live URL, one paragraph on trade-off decisions made.
+Live URL | Deployed to Vercel or Cloudflare Pages (frontend/full-stack) or Railway/Render/Fly.io (backend/AI). Must be publicly accessible. "Works on my machine" is a hard failure for all roles except AI pipeline (where local execution is acceptable if deployment is not feasible in 72 hours).
+README Quality | The README is evaluated. We will try to run your project using only the README. If it takes more than 5 minutes or fails, that counts against you. Include: env vars, database setup, seed command, start command, live URL.
+AI Role — Data Sample | Show in the README: 3 raw scraped records side-by-side with their normalised output. Show 2 records that were rejected and the rejection reason. Show the quality report output from a real pipeline run.
+
+=== TABLE 29 ===
+# | Criterion | What We Actually Check
+1 | It works and is deployed | We open the live URL. Does the salary table load? Do filters work? Is real data showing? Does the API return correct shapes? If the core path fails on first attempt, review stops.
+2 | Data integrity (Backend & FS) | We POST a salary with negative base_salary, an invalid level, a duplicate record. Does the API reject correctly? Is total_compensation always computed, never trusted?
+3 | Static architecture | We run Lighthouse on the salary table page. Is LCP < 2s? Does the page use RSC correctly? Are generateStaticParams used? Is there unnecessary SSR?
+4 | Data pipeline quality (AI/Data) | We read the rejection log and the quality report. Is the normalization function handling the TCS/Tata edge case? Is Pydantic rejecting bad LLM output?
+5 | Code organisation | We read the source. Is there one 600-line page.tsx, or a clean component hierarchy? Is lib/db.ts separate from API handlers? Are Prisma queries in the right layer?
+6 | Edge case handling | We test every edge case listed in each role section. Salary table with 0 results. Company page with 1 record. API with all filters combined.
+7 | Communication | Did you send the Day 1 update? Were blockers flagged early? Did your README explain the decisions you made?
+
+=== TABLE 30 ===
+AI tools | Use them. Claude, GPT-4, Cursor, Copilot. We use them too. The evaluation is on the system you build and the decisions you can explain — not whether you typed every line manually.
+Tech stack | Stick to it. Next.js 15 App Router, Tailwind, Prisma, Neon. No Pages Router. No component libraries. No Kubernetes. If you think there is a good reason to deviate, message us first.
+Scope cuts | 72 hours is not enough to build everything perfectly. Cut deliberately. A salary table with solid filters and correct SEO beats a half-finished compare page and a broken company page. Document what you cut and why.
+No auth | There is no authentication in this trial. No login walls, no session handling, no JWT. The scraper and admin endpoints are open. This is intentional — keep the scope clean.
+Deadline | 72 hours from when this document is shared. No extensions unless agreed before the deadline. Partial work submitted on time is evaluated. Missing the deadline entirely is not.
+Questions | If something is genuinely ambiguous, ask once. Do not ask whether your approach is correct — that is the task. Do not wait 6 hours before asking.
+

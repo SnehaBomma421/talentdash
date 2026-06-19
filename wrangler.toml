@@ -1,0 +1,16 @@
+# Cloudflare Pages configuration
+# Deploy: npx wrangler pages deploy .next
+# Requires: CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID
+
+name = "talentdash"
+compatibility_date = "2025-02-01"
+
+pages_build_output_dir = ".next"
+
+[env.production]
+vars = { NEXT_PUBLIC_BASE_URL = "https://talentdash.pages.dev" }
+
+[[redirects]]
+from = "/_not-found"
+to = "/404"
+status = 302
